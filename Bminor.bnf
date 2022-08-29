@@ -1,0 +1,72 @@
+-- Bminor Parser --------------------------------------------------------
+
+<program> ::= <external-definitions> <main-function> $
+<main-function> ::= 'main' ':' 'function' <type-specifier> '(' <parameter-list> ')' '=' <block>
+
+<external-definitions> ::= <external-definition> | <external-definitions> <external-definition>
+<external-definition> ::= <function-definition> | <data-definition>
+<function-definition> ::= <identifier> ':' 'function' <type-specifier> '(' <parameter-list> ')' '=' <block>
+<data-definition> ::= <variable-declaration>
+<parameter-list> ::= <identifier> | <identifier> ',' <parameter-list>
+
+<block> ::= <statement> ';' | '{' <statements> '}'
+<type-specifier> ::= 'integer' | 'boolean' | 'char' | 'string'
+
+<statements> ::= <statement> ';' | <statements> <statement> ';'
+<statement> ::=  <variable-declaration>
+                | <assignment-statement>
+                | <if-statement>
+                | <while-statement>
+                | <for-statement>
+                | <return-statement>
+
+<variable-declaration> ::= <identifier> ':' <type>
+<assignment-statement> ::= <identifier> '=' <expression>
+                        | <variable-declaration> '=' <expression>
+<if-statement> ::= 'if' '(' <expression> ')' <block>
+                | 'if' '(' <expression> ')' <block> 'else' <block>
+<while-statement> ::= 'while' '(' <conditional-expression> ')' <block>
+<for-statement> ::= 'for' '(' <expression> ';' <conditional> ';' <expression> ')' <block>
+<return-statement> ::= 'return' ';' | 'return' '(' <expression> ')'
+
+<expression> ::= <conditional-expression>
+                | <expression> <operator> <expression>
+                | '(' <expression> ')'
+                | '-' <expression>
+                | <integer>
+                | <identifier>
+
+<conditional-expression> ::= <expression> <conditional> <expression> 
+<array-declaration> ::= 'array' <identifier> '[' <integer> ']'
+
+-- Scanner Tokens -------------------------------------------------------
+
+<operator> ::= '++' | '--' | '+' | '-' | '*' | '/' | '%'
+<conditional> ::= '<' | '>' | '<=' | '>=' | '<>' | '=='
+
+<keyword> ::= "array'
+            | 'boolean'
+            | 'char'
+            | 'else'
+            | 'false'
+            | 'for'
+            | 'function'
+            | 'if'
+            | 'integer'
+            | 'return'
+            | 'string'
+            | 'true'
+            | 'void'
+            | 'while'
+
+<identifier> ::= <character-plus> | <identifier> <alphanumeric>
+<string> ::= <quote> <alphanumeric> <quote>
+<quote> ::= '"'
+<alphanumeric> ::= <character-plus> | <digit>
+<character-plus> ::= <underscore> | <character>
+<underscore> ::= '_'
+<character> ::= 'a' | 'b' | ... | 'z' | 'A' | ... | 'Z'
+<integer> ::= <digit> | <integer> <digit>
+<digit> ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+
+------------------------------------------------------------------------
