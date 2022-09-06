@@ -40,7 +40,7 @@ void yyerror(char *s, ...);
 
 %%
 
-program: iexp                                   { printf("Done! iexp = %d\n", $1); }
+program: iexp                                   { printf("%d\n", $1); }
 
 iexp: iexp CMP iexp                             {  }
   | iexp '+' iexp                               { $$ = $1 + $3; }
@@ -83,6 +83,6 @@ int main()
 {
   int ans = (2 + 3) * (10 / 5) - (10 % 3) ;
   printf("> Compare: ans = %d\n", ans);
-  printf("> ");
+  printf(">          ans = ");
   return yyparse();
 }
