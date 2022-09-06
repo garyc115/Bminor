@@ -1,0 +1,10 @@
+lex.yy.c
+parser1
+parser1.output
+parser1.tab.c
+parser1.tab.h
+scanner1
+scanner2
+scanner2.c
+scanner2.lex.c
+/Output
