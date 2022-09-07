@@ -25,3 +25,14 @@ test1:
 
 clean:
 	rm scanner1 parser1
+
+clean_output:
+	rm Output/test1_out1
+	rm Output/test1_out2
+	rm Output/test1_out3
+	rm Output/test1_out4
+	rm Output/test1_out5
+	rm Output/test1_out6
+	rm Output/test1_out7
+	rm Output/test2_out1
+	rm Output/test2_out2

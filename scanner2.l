@@ -73,13 +73,15 @@ int yylineno;
 
   /* integer literal */
 0|[1-9][0-9]*               { yylval.i = atoi(yytext); return INTEGER_LITERAL; }
+
   /* char literal */
 \'[a-zA-Z0-9]\'             { strncpy(yylval.s, yytext, 20); return CHAR_LITERAL; }
+
   /* string literal */
 \"([^"\\]|\\['"?\\abfnrtv])*\"  { strncpy(yylval.s, yytext, 20); return STRING_LITERAL; }
 
   /* identifiers */
-[a-zA-Z_][a-zA-Z0-9_]*      { strncpy(yylval.s, yytext, 20); printf("%s", yylval.s); return IDENTIFIER; }
+[a-zA-Z_][a-zA-Z0-9_]*      { strncpy(yylval.s, yytext, 20); return IDENTIFIER; }
 
 
 [ \t\n]                      /* ignore whitespace */
@@ -87,10 +89,3 @@ int yylineno;
 .                           { yyerror("Unknown character %c\n", *yytext); }
 
 %%
-
-/*
-void yyerror(char *s)
-{
-    fprintf(stderr, "Error: %s", s);
-}
-*/

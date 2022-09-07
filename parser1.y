@@ -34,21 +34,26 @@ void yyerror(char *s, ...);
 %left '+' '-'
 %left '*' '/' '%'
 
-%type <i> iexp iexplist
+%type <i> iexp iexplist assignment_statement
 
 %start program
 
 %%
 
-program: statements
+program: statements                             { printf("Done!\n"); }
 
-statements:
-  | statements statement
-  | statement
+statements: statements statement                {  }
+  | statement                                   {  }
   ;
 
-statement:
-  | iexp                                        { printf("%d\n", $1); }
+statement: assignment_statement ';'             { printf("statement: assignment_statement %d\n", $1); } 
+  | iexplist ';'                                { printf("statement: iexplist %d\n", $1); }
+  ;
+
+assignment_statement: IDENTIFIER '=' iexp       { $$ = $3; printf("assignment_statement: IDENTIFIER = %d\n", $$); }
+
+iexplist: iexplist ',' iexp                     {  }
+  | iexp                                        { $$ = $1; }
   ;
 
 iexp: iexp CMP iexp                             {  }
@@ -60,21 +65,14 @@ iexp: iexp CMP iexp                             {  }
   | '(' iexp ')'                                { $$ = $2; }
   | INTEGER_LITERAL                             {  }
   | BOOLEAN_LITERAL                             {  }
-  | IDENTIFIER                                  {  }
   | FALSE                                       {  }
   | TRUE                                        {  }
-  | IDENTIFIER '=' iexp ';'                     { $$ = $3; }
-  | IDENTIFIER ':' INTEGER '=' iexp ';'         {  }
-  | IDENTIFIER ':' INTEGER ';'                  {  }
-  | IDENTIFIER ':' BOOLEAN '=' iexp ';'         {  }
-  | IDENTIFIER ':' BOOLEAN ';'                  {  }
+  | IDENTIFIER ':' INTEGER '=' iexp             {  }
+  | IDENTIFIER ':' INTEGER                      {  }
+  | IDENTIFIER ':' BOOLEAN '=' iexp             {  }
+  | IDENTIFIER ':' BOOLEAN                      {  }
   | IDENTIFIER '(' iexplist ')'                 {  }
   ;
-
-iexplist: iexp
-  | iexp ',' iexplist                           {  }
-  ;
-
 
 %%
 
@@ -90,8 +88,6 @@ void yyerror(char *s, ...)
 
 int main()
 {
-  int ans = (2 + 3) * (10 / 5) - (10 % 3) ;
-  printf("> Compare: ans = %d\n", ans);
-  printf(">          ans = ");
+  printf(">\n");
   return yyparse();
 }
