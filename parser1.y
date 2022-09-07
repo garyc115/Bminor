@@ -40,7 +40,16 @@ void yyerror(char *s, ...);
 
 %%
 
-program: iexp                                   { printf("%d\n", $1); }
+program: statements
+
+statements:
+  | statements statement
+  | statement
+  ;
+
+statement:
+  | iexp                                        { printf("%d\n", $1); }
+  ;
 
 iexp: iexp CMP iexp                             {  }
   | iexp '+' iexp                               { $$ = $1 + $3; }
@@ -54,7 +63,7 @@ iexp: iexp CMP iexp                             {  }
   | IDENTIFIER                                  {  }
   | FALSE                                       {  }
   | TRUE                                        {  }
-  | IDENTIFIER '=' iexp ';'                     {  }
+  | IDENTIFIER '=' iexp ';'                     { $$ = $3; }
   | IDENTIFIER ':' INTEGER '=' iexp ';'         {  }
   | IDENTIFIER ':' INTEGER ';'                  {  }
   | IDENTIFIER ':' BOOLEAN '=' iexp ';'         {  }

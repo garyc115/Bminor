@@ -12,6 +12,7 @@ scanner1: scanner1.l
 
 test2:
 	./parser1 < Examples/ParseExample1.B > Output/test2_out1
+	./parser1 < Examples/ParseExample2.B > Output/test2_out2
 
 test1:
 	./scanner1 < Examples/Example1.B > Output/test1_out1
